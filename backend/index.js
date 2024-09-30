@@ -74,7 +74,7 @@ app.post('/compare', async (req, res) => {
     });
 
     // 응답에서 'Yes' 또는 'No' 추출
-    const assistantMessage = response.generated_text.trim().toLowerCase();
+    const assistantMessage = response.choices[0].message.content.trim().toLowerCase();
 
     let isSameMeaning = false;
     if (assistantMessage.startsWith('yes')) {
@@ -87,7 +87,7 @@ app.post('/compare', async (req, res) => {
     }
 
     if (isSameMeaning) {
-      res.json({ is_same_meaning: true });
+      res.json({ is_same_meaning: true , correct_answer: correctAnswer});
     } else {
       res.json({ is_same_meaning: false, correct_answer: correctAnswer });
     }
