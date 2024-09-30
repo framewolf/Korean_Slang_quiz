@@ -98,4 +98,15 @@ app.post('/compare', async (req, res) => {
 });
 
 
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);
+
+if (require.main === module) {
+  // 이 스크립트가 직접 실행되는 경우 (예: node index.js)
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`서버가 http://localhost:${port} 에서 실행 중입니다.`);
+  });
+} else {
+  // AWS Lambda 환경에서 실행되는 경우
+  module.exports.handler = serverless(app);
+}
