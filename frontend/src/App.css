@@ -1,0 +1,24 @@
+/* src/App.css */
+.App {
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.start-page,
+.quiz-page,
+.result-page,
+.end-page {
+  margin-top: 50px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  width: 300px;
+}

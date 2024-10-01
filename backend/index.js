@@ -63,8 +63,7 @@ app.post('/compare', async (req, res) => {
 
   try {
     // 프롬프트 구성
-    const prompt = `Do the following two sentences have the same meaning? Answer only with "Yes" or "No".\n\nSentence 1: "${userAnswer}"\nSentence 2: "${correctAnswer}"`;
-
+    const prompt = `Consider the following two sentences and determine if they convey the same meaning, even if they use different words or phrasing. Take into account synonyms and similar concepts. Answer only with "Yes" or "No".\n\nSentence 1: "${userAnswer}"\nSentence 2: "${correctAnswer}"`;
     // Hugging Face Inference API 호출
     const response = await hf.chatCompletion({
       model: 'google/gemma-2-2b-it',
@@ -86,11 +85,11 @@ app.post('/compare', async (req, res) => {
       return res.status(500).json({ error: 'Unexpected response from the model.' });
     }
 
-    if (isSameMeaning) {
-      res.json({ is_same_meaning: true , correct_answer: correctAnswer});
-    } else {
-      res.json({ is_same_meaning: false, correct_answer: correctAnswer });
-    }
+    res.json({
+      is_same_meaning: isSameMeaning,
+      correct_answer: correctAnswer,
+    });
+    
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
