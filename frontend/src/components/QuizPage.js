@@ -10,7 +10,7 @@ function QuizPage({ excludedIds, onQuestionLoaded, onSubmit, onEnd }) {
   useEffect(() => {
     const fetchQuestion = async () => {
       try {
-        const response = await axios.get('https://7lngf4amm4.execute-api.us-east-2.amazonaws.com/dev/getSlang', {
+        const response = await axios.get('https://fw04w1h3hl.execute-api.ap-northeast-2.amazonaws.com/dev/getSlang', {
           params: { excludedIds: excludedIds.join(',') },
         });
         if (response.data.message) {
@@ -34,7 +34,7 @@ function QuizPage({ excludedIds, onQuestionLoaded, onSubmit, onEnd }) {
     setError(null); // 오류 상태 초기화
 
     try {
-      const response = await axios.post('https://7lngf4amm4.execute-api.us-east-2.amazonaws.com/dev/compare', {
+      const response = await axios.post('https://fw04w1h3hl.execute-api.ap-northeast-2.amazonaws.com/dev/compare', {
         questionId: question.id,
         userAnswer: userAnswer,
       });
