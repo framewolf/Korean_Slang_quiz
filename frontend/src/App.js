@@ -4,6 +4,8 @@ import StartPage from './components/StartPage';
 import QuizPage from './components/QuizPage';
 import ResultPage from './components/ResultPage';
 import EndPage from './components/EndPage';
+import './App.css';
+
 
 function App() {
   const [page, setPage] = useState('start');

@@ -1,3 +1,5 @@
+// index.js
+
 require('dotenv').config();
 const axios = require('axios');
 const express = require('express');
@@ -10,23 +12,18 @@ const app = express();
 // Hugging Face Inference 인스턴스 생성
 const hf = new HfInference(process.env.HUGGING_FACE_API_TOKEN);
 
-let corsOptions = {
-    origin: '*',
-    credentials: true
-  }
+const corsOptions = {
+  origin: '*',
+  credentials: true
+};
 app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const slangList = [
-    { id: 0, korean: "킹받네", english: "I'm so annoyed" },
-    { id: 1, korean: "갑분싸", english: "The mood suddenly turned awkward" },
-    { id: 2, korean: "빵터지다", english: "Burst into laughter" },
-    { id: 3, korean: "짤", english: "Meme or funny picture" },
-    { id: 4, korean: "아싸", english: "Outsider (someone who is not part of a social group)" },
-    { id: 5, korean: "쪼렙", english: "Noob (low-level player or beginner)" },
-  ];
+// slangList 가져오기 (CommonJS 방식)
+const slangList = require('./slangList');
+// console.log('Slang List Loaded:', slangList); 
 
 // GET /getSlang - 슬랭 문제 제공 (이미 출제된 문제 제외)
 app.get('/getSlang', (req, res) => {
@@ -47,6 +44,13 @@ app.get('/getSlang', (req, res) => {
   res.json({ id: selectedSlang.id, korean: selectedSlang.korean });
 });
 
+function withTimeout(promise, ms) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('Request timed out')), ms)
+  );
+  return Promise.race([promise, timeout]);
+}
+
 // POST /compare - 사용자의 답변 검증
 app.post('/compare', async (req, res) => {
   const questionId = req.body.questionId;
@@ -61,51 +65,73 @@ app.post('/compare', async (req, res) => {
 
   const correctAnswer = question.english.trim();
 
-  try {
-    // 프롬프트 구성
-    const prompt = `Consider the following two sentences and determine if they convey the same meaning, even if they use different words or phrasing. Take into account synonyms and similar concepts. Answer only with "Yes" or "No".\n\nSentence 1: "${userAnswer}"\nSentence 2: "${correctAnswer}"`;
-    // Hugging Face Inference API 호출
-    const response = await hf.chatCompletion({
-      model: 'google/gemma-2-2b-it',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.0, // 응답의 일관성을 높이기 위해 온도 낮춤
-      max_tokens: 10,   // 응답 길이 제한
-    });
+  // 프롬프트 구성
+  const prompt = `Consider the following two sentences and determine if they convey the same meaning, even if they use different words or phrasing. Take into account synonyms and similar concepts. Answer only with "Yes" or "No".\n\nSentence 1: "${userAnswer}"\nSentence 2: "${correctAnswer}"`;
 
-    // 응답에서 'Yes' 또는 'No' 추출
-    const assistantMessage = response.choices[0].message.content.trim().toLowerCase();
+  const maxRetries = 3;
+  let retries = 0;
+  let success = false;
+  let assistantMessage = '';
 
-    let isSameMeaning = false;
-    if (assistantMessage.startsWith('yes')) {
-      isSameMeaning = true;
-    } else if (assistantMessage.startsWith('no')) {
-      isSameMeaning = false;
-    } else {
-      // 예상치 못한 응답 처리
-      return res.status(500).json({ error: 'Unexpected response from the model.' });
+  while (retries < maxRetries && !success) {
+    try {
+      // 요청 시간 제한 설정 (예: 10초)
+      const timeoutMs = 10000;
+
+      // API 호출에 타임아웃 적용
+      const response = await withTimeout(
+        hf.chatCompletion({
+          model: 'google/gemma-2-2b-it',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.0,
+          max_tokens: 10,
+        }),
+        timeoutMs
+      );
+
+      assistantMessage = response.choices[0].message.content.trim().toLowerCase();
+      success = true; // 요청이 성공하면 루프 탈출
+
+    } catch (error) {
+      console.error('Error:', error.message);
+      retries++;
+      console.log(`Retrying... (${retries}/${maxRetries})`);
+
+      // 타임아웃 에러가 발생한 경우 추가 처리
+      if (error.message === 'Request timed out') {
+        console.log('Request timed out. Retrying...');
+      } else {
+        // 다른 종류의 에러인 경우에도 재시도할지 결정해야 함
+        // 여기서는 모든 에러에 대해 재시도
+      }
     }
-
-    res.json({
-      is_same_meaning: isSameMeaning,
-      correct_answer: correctAnswer,
-    });
-    
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
   }
+
+  if (!success) {
+    return res.status(500).json({ error: 'Failed to get a response from the model.' });
+  }
+
+  let isSameMeaning = false;
+  if (assistantMessage.startsWith('yes')) {
+    isSameMeaning = true;
+  } else if (assistantMessage.startsWith('no')) {
+    isSameMeaning = false;
+  } else {
+    return res.status(500).json({ error: 'Unexpected response from the model.' });
+  }
+
+  res.json({
+    is_same_meaning: isSameMeaning,
+    correct_answer: correctAnswer,
+  });
 });
 
-
-// module.exports.handler = serverless(app);
-
+// 서버 실행
 if (require.main === module) {
-  // 이 스크립트가 직접 실행되는 경우 (예: node index.js)
   const port = process.env.PORT || 3000;
   app.listen(port, () => {
     console.log(`서버가 http://localhost:${port} 에서 실행 중입니다.`);
   });
 } else {
-  // AWS Lambda 환경에서 실행되는 경우
   module.exports.handler = serverless(app);
 }
