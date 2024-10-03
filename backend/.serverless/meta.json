@@ -1,21 +1,1147 @@
 {
-  "unknown": {
+  "/home/lee/Korean_Slang_quiz/backend": {
     "versionSfCore": null,
     "versionFramework": "4.4.4",
     "isWithinCompose": false,
+    "isCompose": false,
     "composeOrgName": null,
-    "composeServiceName": null,
-    "command": [],
-    "options": {},
-    "error": {
-      "message": "Unauthorized",
-      "stack": "Error: Unauthorized\n    at AccessKeysV2Client.makeRequest (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:210:422354)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AccessKeysV2Client._get (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:210:421440)\n    at async Authentication.authenticate (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:650:10506)\n    at async Authentication.getAuthenticatedData (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:648:10667)\n    at async routeNew (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:658:4936)\n    at async commandOnboarding (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:658:1998)\n    at async catchAllHandler (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:683:19702)\n    at async runCommand (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:973:10875)\n    at async route (file:///home/lee/.serverless/releases/4.4.4/package/dist/sf-core.js:973:12606)"
+    "composeResolverProviders": {
+      "default-aws-credential-resolver": "<REDACTED>",
+      "env": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "service": "korean-slang-quiz-backend",
+            "provider": {
+              "name": "aws",
+              "runtime": "nodejs20.x",
+              "region": "ap-northeast-2",
+              "environment": {
+                "HUGGING_FACE_API_TOKEN": "<REDACTED>"
+              },
+              "stage": "dev",
+              "versionFunctions": true,
+              "compiledCloudFormationTemplate": {
+                "AWSTemplateFormatVersion": "2010-09-09",
+                "Description": "The AWS CloudFormation template for this Serverless application",
+                "Resources": {
+                  "AppLogGroup": {
+                    "Type": "AWS::Logs::LogGroup",
+                    "Properties": {
+                      "LogGroupName": "/aws/lambda/korean-slang-quiz-backend-dev-app"
+                    }
+                  },
+                  "IamRoleLambdaExecution": {
+                    "Type": "AWS::IAM::Role",
+                    "Properties": {
+                      "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Principal": {
+                              "Service": [
+                                "lambda.amazonaws.com"
+                              ]
+                            },
+                            "Action": [
+                              "sts:AssumeRole"
+                            ]
+                          }
+                        ]
+                      },
+                      "Policies": [
+                        {
+                          "PolicyName": {
+                            "Fn::Join": [
+                              "-",
+                              [
+                                "korean-slang-quiz-backend",
+                                "dev",
+                                "lambda"
+                              ]
+                            ]
+                          },
+                          "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:CreateLogStream",
+                                  "logs:CreateLogGroup",
+                                  "logs:TagResource"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/korean-slang-quiz-backend-dev*:*"
+                                  }
+                                ]
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:PutLogEvents"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/korean-slang-quiz-backend-dev*:*:*"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "Path": "/",
+                      "RoleName": {
+                        "Fn::Join": [
+                          "-",
+                          [
+                            "korean-slang-quiz-backend",
+                            "dev",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            "lambdaRole"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "AppLambdaFunction": {
+                    "Type": "AWS::Lambda::Function",
+                    "Properties": {
+                      "Code": {
+                        "S3Bucket": "serverless-framework-deployments-ap-northeast-2-16ddeaa1-cd18",
+                        "S3Key": "serverless/korean-slang-quiz-backend/dev/1727952595058-2024-10-03T10:49:55.058Z/korean-slang-quiz-backend.zip"
+                      },
+                      "Handler": "index.handler",
+                      "Runtime": "nodejs20.x",
+                      "FunctionName": "korean-slang-quiz-backend-dev-app",
+                      "MemorySize": 1024,
+                      "Timeout": 6,
+                      "Environment": {
+                        "Variables": {
+                          "HUGGING_FACE_API_TOKEN": "<REDACTED>"
+                        }
+                      },
+                      "Role": {
+                        "Fn::GetAtt": [
+                          "IamRoleLambdaExecution",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "DependsOn": [
+                      "AppLogGroup"
+                    ]
+                  },
+                  "AppLambdaVersionDpMT6BHPg3Qzj6jMEk5u5inJkH53OYyWdUXTMjAmUc": {
+                    "Type": "AWS::Lambda::Version",
+                    "DeletionPolicy": "Retain",
+                    "Properties": {
+                      "FunctionName": {
+                        "Ref": "AppLambdaFunction"
+                      },
+                      "CodeSha256": "/nrfX+joyFBEKgkBoMBUg5ENW/C0GvqUmpwmm3HydVY="
+                    }
+                  },
+                  "ApiGatewayRestApi": {
+                    "Type": "AWS::ApiGateway::RestApi",
+                    "Properties": {
+                      "Name": "dev-korean-slang-quiz-backend",
+                      "EndpointConfiguration": {
+                        "Types": [
+                          "EDGE"
+                        ]
+                      },
+                      "Policy": ""
+                    }
+                  },
+                  "ApiGatewayResourceProxyVar": {
+                    "Type": "AWS::ApiGateway::Resource",
+                    "Properties": {
+                      "ParentId": {
+                        "Fn::GetAtt": [
+                          "ApiGatewayRestApi",
+                          "RootResourceId"
+                        ]
+                      },
+                      "PathPart": "{proxy+}",
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayMethodOptions": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "AuthorizationType": "NONE",
+                      "HttpMethod": "OPTIONS",
+                      "MethodResponses": [
+                        {
+                          "StatusCode": "200",
+                          "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Origin": true,
+                            "method.response.header.Access-Control-Allow-Headers": true,
+                            "method.response.header.Access-Control-Allow-Methods": true
+                          },
+                          "ResponseModels": {}
+                        }
+                      ],
+                      "RequestParameters": {},
+                      "Integration": {
+                        "Type": "MOCK",
+                        "RequestTemplates": {
+                          "application/json": "{statusCode:200}"
+                        },
+                        "ContentHandling": "CONVERT_TO_TEXT",
+                        "IntegrationResponses": [
+                          {
+                            "StatusCode": "200",
+                            "ResponseParameters": {
+                              "method.response.header.Access-Control-Allow-Origin": "'*'",
+                              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
+                            },
+                            "ResponseTemplates": {
+                              "application/json": ""
+                            }
+                          }
+                        ]
+                      },
+                      "ResourceId": {
+                        "Fn::GetAtt": [
+                          "ApiGatewayRestApi",
+                          "RootResourceId"
+                        ]
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayMethodProxyVarOptions": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "AuthorizationType": "NONE",
+                      "HttpMethod": "OPTIONS",
+                      "MethodResponses": [
+                        {
+                          "StatusCode": "200",
+                          "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Origin": true,
+                            "method.response.header.Access-Control-Allow-Headers": true,
+                            "method.response.header.Access-Control-Allow-Methods": true
+                          },
+                          "ResponseModels": {}
+                        }
+                      ],
+                      "RequestParameters": {},
+                      "Integration": {
+                        "Type": "MOCK",
+                        "RequestTemplates": {
+                          "application/json": "{statusCode:200}"
+                        },
+                        "ContentHandling": "CONVERT_TO_TEXT",
+                        "IntegrationResponses": [
+                          {
+                            "StatusCode": "200",
+                            "ResponseParameters": {
+                              "method.response.header.Access-Control-Allow-Origin": "'*'",
+                              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
+                            },
+                            "ResponseTemplates": {
+                              "application/json": ""
+                            }
+                          }
+                        ]
+                      },
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceProxyVar"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayMethodAny": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "ANY",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Fn::GetAtt": [
+                          "ApiGatewayRestApi",
+                          "RootResourceId"
+                        ]
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "AppLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "AppLambdaPermissionApiGateway"
+                    ]
+                  },
+                  "ApiGatewayMethodProxyVarAny": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "ANY",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceProxyVar"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "AppLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "AppLambdaPermissionApiGateway"
+                    ]
+                  },
+                  "ApiGatewayDeployment1727952588216": {
+                    "Type": "AWS::ApiGateway::Deployment",
+                    "Properties": {
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "StageName": "dev"
+                    },
+                    "DependsOn": [
+                      "ApiGatewayMethodOptions",
+                      "ApiGatewayMethodProxyVarOptions",
+                      "ApiGatewayMethodAny",
+                      "ApiGatewayMethodProxyVarAny"
+                    ]
+                  },
+                  "AppLambdaPermissionApiGateway": {
+                    "Type": "AWS::Lambda::Permission",
+                    "Properties": {
+                      "FunctionName": {
+                        "Fn::GetAtt": [
+                          "AppLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "Action": "lambda:InvokeFunction",
+                      "Principal": "apigateway.amazonaws.com",
+                      "SourceArn": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":execute-api:",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                              "Ref": "ApiGatewayRestApi"
+                            },
+                            "/*/*"
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                },
+                "Outputs": {
+                  "ServerlessDeploymentBucketName": {
+                    "Value": "serverless-framework-deployments-ap-northeast-2-16ddeaa1-cd18",
+                    "Export": {
+                      "Name": "sls-korean-slang-quiz-backend-dev-ServerlessDeploymentBucketName"
+                    }
+                  },
+                  "AppLambdaFunctionQualifiedArn": {
+                    "Description": "Current Lambda function version",
+                    "Value": {
+                      "Ref": "AppLambdaVersionDpMT6BHPg3Qzj6jMEk5u5inJkH53OYyWdUXTMjAmUc"
+                    },
+                    "Export": {
+                      "Name": "sls-korean-slang-quiz-backend-dev-AppLambdaFunctionQualifiedArn"
+                    }
+                  },
+                  "ServiceEndpoint": {
+                    "Description": "URL of the service endpoint",
+                    "Value": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "https://",
+                          {
+                            "Ref": "ApiGatewayRestApi"
+                          },
+                          ".execute-api.",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          ".",
+                          {
+                            "Ref": "AWS::URLSuffix"
+                          },
+                          "/dev"
+                        ]
+                      ]
+                    },
+                    "Export": {
+                      "Name": "sls-korean-slang-quiz-backend-dev-ServiceEndpoint"
+                    }
+                  }
+                }
+              },
+              "vpc": {}
+            },
+            "functions": {
+              "app": {
+                "handler": "index.handler",
+                "events": [
+                  {
+                    "http": {
+                      "path": "",
+                      "method": "any",
+                      "cors": {
+                        "origin": "*",
+                        "methods": [
+                          "OPTIONS",
+                          "ANY"
+                        ],
+                        "headers": [
+                          "Content-Type",
+                          "X-Amz-Date",
+                          "Authorization",
+                          "X-Api-Key",
+                          "X-Amz-Security-Token",
+                          "X-Amz-User-Agent",
+                          "X-Amzn-Trace-Id"
+                        ],
+                        "allowCredentials": "<REDACTED>"
+                      },
+                      "integration": "AWS_PROXY"
+                    }
+                  },
+                  {
+                    "http": {
+                      "path": "{proxy+}",
+                      "method": "any",
+                      "cors": {
+                        "origin": "*",
+                        "methods": [
+                          "OPTIONS",
+                          "ANY"
+                        ],
+                        "headers": [
+                          "Content-Type",
+                          "X-Amz-Date",
+                          "Authorization",
+                          "X-Api-Key",
+                          "X-Amz-Security-Token",
+                          "X-Amz-User-Agent",
+                          "X-Amzn-Trace-Id"
+                        ],
+                        "allowCredentials": "<REDACTED>"
+                      },
+                      "integration": "AWS_PROXY"
+                    }
+                  }
+                ],
+                "name": "korean-slang-quiz-backend-dev-app",
+                "package": {},
+                "memory": 1024,
+                "timeout": 6,
+                "runtime": "nodejs20.x",
+                "vpc": {},
+                "versionLogicalId": "AppLambdaVersionDpMT6BHPg3Qzj6jMEk5u5inJkH53OYyWdUXTMjAmUc"
+              }
+            },
+            "package": {
+              "exclude": [
+                "venv/**",
+                ".gitignore",
+                ".git/**",
+                "README.md",
+                "aws/",
+                "awscliv2.zip"
+              ],
+              "artifactsS3KeyDirname": "serverless/korean-slang-quiz-backend/dev/code-artifacts",
+              "deploymentBucket": "serverless-framework-deployments-ap-northeast-2-16ddeaa1-cd18",
+              "artifact": "/home/lee/Korean_Slang_quiz/backend/.serverless/korean-slang-quiz-backend.zip",
+              "artifactDirectoryName": "serverless/korean-slang-quiz-backend/dev/1727952595058-2024-10-03T10:49:55.058Z"
+            }
+          },
+          "configFileDirPath": "/home/lee/Korean_Slang_quiz/backend",
+          "config": {
+            "type": "env"
+          },
+          "options": {},
+          "stage": "dev",
+          "dashboard": null,
+          "logger": {
+            "namespace": "s:core:resolver:env",
+            "prefix": null,
+            "prefixColor": null
+          },
+          "_credentialsPromise": "<REDACTED>"
+        },
+        "resolvers": {}
+      }
     },
+    "composeServiceName": null,
+    "servicePath": "/home/lee/Korean_Slang_quiz/backend",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "korean-slang-quiz-backend",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs20.x",
+        "region": "ap-northeast-2",
+        "environment": {
+          "HUGGING_FACE_API_TOKEN": "<REDACTED>"
+        },
+        "stage": "dev",
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "AppLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/korean-slang-quiz-backend-dev-app"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "korean-slang-quiz-backend",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/korean-slang-quiz-backend-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/korean-slang-quiz-backend-dev*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "korean-slang-quiz-backend",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "AppLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-ap-northeast-2-16ddeaa1-cd18",
+                  "S3Key": "serverless/korean-slang-quiz-backend/dev/1727952595058-2024-10-03T10:49:55.058Z/korean-slang-quiz-backend.zip"
+                },
+                "Handler": "index.handler",
+                "Runtime": "nodejs20.x",
+                "FunctionName": "korean-slang-quiz-backend-dev-app",
+                "MemorySize": 1024,
+                "Timeout": 6,
+                "Environment": {
+                  "Variables": {
+                    "HUGGING_FACE_API_TOKEN": "<REDACTED>"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "AppLogGroup"
+              ]
+            },
+            "AppLambdaVersionDpMT6BHPg3Qzj6jMEk5u5inJkH53OYyWdUXTMjAmUc": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "AppLambdaFunction"
+                },
+                "CodeSha256": "/nrfX+joyFBEKgkBoMBUg5ENW/C0GvqUmpwmm3HydVY="
+              }
+            },
+            "ApiGatewayRestApi": {
+              "Type": "AWS::ApiGateway::RestApi",
+              "Properties": {
+                "Name": "dev-korean-slang-quiz-backend",
+                "EndpointConfiguration": {
+                  "Types": [
+                    "EDGE"
+                  ]
+                },
+                "Policy": ""
+              }
+            },
+            "ApiGatewayResourceProxyVar": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "{proxy+}",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodProxyVarOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceProxyVar"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodAny": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "ANY",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "AppLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "AppLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodProxyVarAny": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "ANY",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceProxyVar"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "AppLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "AppLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayDeployment1727952588216": {
+              "Type": "AWS::ApiGateway::Deployment",
+              "Properties": {
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "StageName": "dev"
+              },
+              "DependsOn": [
+                "ApiGatewayMethodOptions",
+                "ApiGatewayMethodProxyVarOptions",
+                "ApiGatewayMethodAny",
+                "ApiGatewayMethodProxyVarAny"
+              ]
+            },
+            "AppLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "AppLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-ap-northeast-2-16ddeaa1-cd18",
+              "Export": {
+                "Name": "sls-korean-slang-quiz-backend-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "AppLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "AppLambdaVersionDpMT6BHPg3Qzj6jMEk5u5inJkH53OYyWdUXTMjAmUc"
+              },
+              "Export": {
+                "Name": "sls-korean-slang-quiz-backend-dev-AppLambdaFunctionQualifiedArn"
+              }
+            },
+            "ServiceEndpoint": {
+              "Description": "URL of the service endpoint",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    },
+                    "/dev"
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-korean-slang-quiz-backend-dev-ServiceEndpoint"
+              }
+            }
+          }
+        },
+        "vpc": {}
+      },
+      "functions": {
+        "app": {
+          "handler": "index.handler",
+          "events": [
+            {
+              "http": {
+                "path": "",
+                "method": "any",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "ANY"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
+                "integration": "AWS_PROXY"
+              }
+            },
+            {
+              "http": {
+                "path": "{proxy+}",
+                "method": "any",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "ANY"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "name": "korean-slang-quiz-backend-dev-app",
+          "package": {},
+          "memory": 1024,
+          "timeout": 6,
+          "runtime": "nodejs20.x",
+          "vpc": {},
+          "versionLogicalId": "AppLambdaVersionDpMT6BHPg3Qzj6jMEk5u5inJkH53OYyWdUXTMjAmUc"
+        }
+      },
+      "package": {
+        "exclude": [
+          "venv/**",
+          ".gitignore",
+          ".git/**",
+          "README.md",
+          "aws/",
+          "awscliv2.zip"
+        ],
+        "artifactsS3KeyDirname": "serverless/korean-slang-quiz-backend/dev/code-artifacts",
+        "deploymentBucket": "serverless-framework-deployments-ap-northeast-2-16ddeaa1-cd18",
+        "artifact": "/home/lee/Korean_Slang_quiz/backend/.serverless/korean-slang-quiz-backend.zip",
+        "artifactDirectoryName": "serverless/korean-slang-quiz-backend/dev/1727952595058-2024-10-03T10:49:55.058Z"
+      }
+    },
+    "serviceRawFile": "service: korean-slang-quiz-backend\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: ap-northeast-2 # AWS 리전, 필요에 따라 변경하세요.\n  environment:\n    HUGGING_FACE_API_TOKEN: ${env:HUGGING_FACE_API_TOKEN} # Hugging Face API 키 환경 변수 설정\n\nfunctions:\n  app:\n    handler: index.handler\n    events:\n      - http:\n          path: /\n          method: ANY\n          cors: true\n      - http:\n          path: /{proxy+}\n          method: ANY\n          cors: true\n\n# plugins:\n#   - serverless-offline # 로컬 테스트를 위한 플러그인 (Optional)\n\npackage:\n  exclude:\n    - venv/**\n    - .gitignore\n    - .git/**\n    - README.md\n    - aws/\n    - awscliv2.zip\n\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "error": null,
+    "params": {},
     "machineId": "1b45389de56468124707d33f6ddfb210",
-    "serviceProviderAwsCfStackId": null,
-    "serviceProviderAwsCfStackCreated": null,
-    "serviceProviderAwsCfStackUpdated": null,
-    "serviceProviderAwsCfStackStatus": null,
-    "serviceProviderAwsCfStackOutputs": null
+    "stage": "dev",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "1451f2bb-91cb-435a-93e3-46765edefe7c",
+    "orgName": "framewolf",
+    "userId": "mGycTmg29MbyP1gywv",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "framewolf",
+    "subscription": null,
+    "userEmail": "chankyu04@naver.com",
+    "serviceProviderAwsRegion": "ap-northeast-2",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "180257187511",
+    "projectType": "traditional",
+    "versionSf": "4.4.4",
+    "serviceProviderAwsCfStackName": "korean-slang-quiz-backend-dev",
+    "integrations": {},
+    "serviceUniqueId": "arn:aws:cloudformation:ap-northeast-2:180257187511:stack/korean-slang-quiz-backend-dev/a653de20-816c-11ef-832b-0a77a0e4b59b",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-northeast-2:180257187511:stack/korean-slang-quiz-backend-dev/a653de20-816c-11ef-832b-0a77a0e4b59b",
+    "serviceProviderAwsCfStackCreated": "2024-10-03T09:48:32.506Z",
+    "serviceProviderAwsCfStackUpdated": "2024-10-03T10:49:58.597Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "AppLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:ap-northeast-2:180257187511:function:korean-slang-quiz-backend-dev-app:4",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-korean-slang-quiz-backend-dev-AppLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServiceEndpoint",
+        "OutputValue": "https://fw04w1h3hl.execute-api.ap-northeast-2.amazonaws.com/dev",
+        "Description": "URL of the service endpoint",
+        "ExportName": "sls-korean-slang-quiz-backend-dev-ServiceEndpoint"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-ap-northeast-2-16ddeaa1-cd18",
+        "ExportName": "sls-korean-slang-quiz-backend-dev-ServerlessDeploymentBucketName"
+      }
+    ]
   }
 }

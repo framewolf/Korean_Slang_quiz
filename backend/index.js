@@ -1,6 +1,6 @@
 // index.js
 
-require('dotenv').config();
+// require('dotenv').config();
 const axios = require('axios');
 const express = require('express');
 const serverless = require('serverless-http');
@@ -127,11 +127,11 @@ app.post('/compare', async (req, res) => {
 });
 
 // 서버 실행
-if (require.main === module) {
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`서버가 http://localhost:${port} 에서 실행 중입니다.`);
-  });
-} else {
-  module.exports.handler = serverless(app);
-}
+// if (require.main === module) {
+//   const port = process.env.PORT || 3000;
+//   app.listen(port, () => {
+//     console.log(`서버가 http://localhost:${port} 에서 실행 중입니다.`);
+//   });
+// } else {
+module.exports.handler = serverless(app);
+// }
