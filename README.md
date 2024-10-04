@@ -14,7 +14,7 @@ Welcome to the **Korean Slang Quiz**! This application is designed to help learn
 ## Features
 
 - **Randomized Questions:** Receive a variety of slang terms each time you start the quiz.
-- **Real-time Answer Validation:** Get immediate feedback on your answers using advanced language models.
+- **Real-time Answer Validation:** Get immediate feedback on your answers using Gemma-2b-it.
 - **Progress Tracking:** Keep track of the slang terms you've mastered and those you need to revisit.
 - **Secure Backend:** Powered by AWS Lambda for scalable and reliable performance.
 
